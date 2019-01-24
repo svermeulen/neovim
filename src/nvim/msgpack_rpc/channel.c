@@ -678,6 +678,20 @@ Dictionary rpc_client_info(Channel *chan)
   return copy_dictionary(chan->rpc.info);
 }
 
+const char *rpc_client_name(Channel *chan)
+{
+  if (!chan->is_rpc) {
+    return NULL;
+  }
+  for (size_t i = 0; i < chan->rpc.info.size; i++) {
+    if (strequal("name", chan->rpc.info.items[i].key.data)) {
+      return chan->rpc.info.items[i].value.data.string.data;
+    }
+  }
+
+  return NULL;
+}
+
 #if MIN_LOG_LEVEL <= DEBUG_LOG_LEVEL
 #define REQ "[request]  "
 #define RES "[response] "
