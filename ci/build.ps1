@@ -2,9 +2,9 @@ $ErrorActionPreference = 'stop'
 Set-PSDebug -Strict -Trace 1
 
 $env:CONFIGURATION -match '^(?<compiler>\w+)_(?<bits>32|64)(?:-(?<option>\w+))?$'
-$compiler = $Matches.compiler
-$compileOption = $Matches.option
-$bits = $Matches.bits
+$compiler = 'MSVC'
+$compileOption = ''
+$bits = '32'
 $cmakeBuildType = 'RelWithDebInfo'
 $depsCmakeVars = @{
   CMAKE_BUILD_TYPE = $cmakeBuildType;
@@ -71,7 +71,7 @@ elseif ($compiler -eq 'MSVC') {
 C:\Python27\python.exe -m pip install pynvim ; exitIfFailed
 C:\Python35\python.exe -m pip install pynvim ; exitIfFailed
 # Disambiguate python3
-move c:\Python35\python.exe c:\Python35\python3.exe
+# move c:\Python35\python.exe c:\Python35\python3.exe
 $env:PATH = "C:\Python35;C:\Python27;$env:PATH"
 # Sanity check
 python  -c "import pynvim; print(str(pynvim))" ; exitIfFailed

@@ -229,6 +229,7 @@ return {
     pyxeval={args=1},
     range={args={1, 3}},
     readfile={args={1, 3}},
+    reloadprovider={args=1},
     reltime={args={0, 2}},
     reltimefloat={args=1},
     reltimestr={args=1},

@@ -22758,10 +22758,10 @@ typval_T eval_call_provider(char *provider, char *method, list_T *arguments)
   return rettv;
 }
 
-bool eval_has_provider(const char *name)
+bool eval_has_provider_cached(const char *name, bool clear_cache)
 {
 #define CHECK_PROVIDER(name) \
-  if (has_##name == -1) { \
+  if (has_##name == -1 || clear_cache) { \
     has_##name = !!find_func((char_u *)"provider#" #name "#Call"); \
     if (!has_##name) { \
       script_autoload("provider#" #name "#Call", \
@@ -22802,6 +22802,18 @@ bool eval_has_provider(const char *name)
   }
 
   return false;
+}
+
+bool eval_has_provider(const char *name)
+{
+  return eval_has_provider_cached(name, false);
+}
+
+static void f_reloadprovider(typval_T *argvars, typval_T *rettv, FunPtr fptr)
+{
+  const char *const name = tv_get_string(&argvars[0]);
+  bool h = eval_has_provider_cached(name, true);
+  rettv->vval.v_number = h;
 }
 
 /// Writes "<sourcing_name>:<sourcing_lnum>" to `buf[bufsize]`.
