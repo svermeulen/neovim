@@ -135,10 +135,8 @@ endif()
 set(MSGPACK_URL https://github.com/msgpack/msgpack-c/releases/download/cpp-3.0.0/msgpack-3.0.0.tar.gz)
 set(MSGPACK_SHA256 bfbb71b7c02f806393bc3cbc491b40523b89e64f83860c58e3e54af47de176e4)
 
-# set(LUAJIT_URL https://github.com/LuaJIT/LuaJIT/archive/7dbf0b05f1228c1c719866db5e5f3d58f87f74c8.tar.gz)
-# set(LUAJIT_URL https://github.com/svermeulen/LuaJIT/archive/b8b72b9466c6fa42496ff84a1826b5d92afd5d6f.tar.gz)
-set(LUAJIT_URL https://github.com/svermeulen/LuaJIT/archive/973775e55757aabd94d2dff244219c7277f221cd.tar.gz)
-set(LUAJIT_SHA256 cbae019b5e396164eb5f0d07777b55cc03931bb944f83c61a010c053c9f5fd5b)
+set(LUAJIT_URL https://github.com/svermeulen/LuaJIT/archive/1eccba7d1ef20781b007e7ddfe7c119726bf166e.tar.gz)
+set(LUAJIT_SHA256 37d4b5474ac73acce9d2d70d4f042bb636324ab4f1c98052e4aa58a8bf3365d3)
 
 set(LUA_URL https://www.lua.org/ftp/lua-5.1.5.tar.gz)
 set(LUA_SHA256 2640fc56a795f29d28ef15e13c34a47e223960b0240e8cb0a82d9b0738695333)
