@@ -45,7 +45,7 @@ def preparePackageContentsTask = tasks.register("preparePackageContents") {
     project.delete neovimZipContentsDir
     project.copy {
       from nvimExe
-      into neovimZipContentsDir
+      into "${neovimZipContentsDir}/bin"
     }
 
     project.copy {
