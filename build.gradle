@@ -12,6 +12,10 @@ ext {
   neovimZipContentsDir = file("${buildDir}/dist")
 }
 
+versioning {
+  tagFormat = "ave%s.%s"
+}
+
 def cleanTask = tasks.register("clean", Delete) {
   delete buildDir
 }
@@ -56,6 +60,9 @@ def packageTask = tasks.register("package", Zip) {
   from neovimZipContentsDir
   destinationDir neovimZip.parentFile
   archiveName neovimZip.name
+  doFirst {
+    neovimZip.delete()
+  }
 }
 
 publishing {

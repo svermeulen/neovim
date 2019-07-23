@@ -58,3 +58,5 @@ local.mk
 
 # Ignore Gradle project-specific cache directory
 /.gradle
+
+/includedBuilds.txt
