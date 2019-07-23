@@ -1,6 +1,77 @@
 
+plugins {
+  id "maven-publish"
+  id "com.ave.versioning" version '1.4.0'
+}
+
+ext {
+  neovimZip = file("${buildDir}/dist.zip")
+  binDir = file("${buildDir}/bin")
+  neovimZipContentsDir = file("${buildDir}/dist")
+}
+
+def cleanTask = tasks.register("clean", Delete) {
+  delete buildDir
+}
+
+// The build itself is incremental so no need for inputs/outputs
 def buildTask = tasks.register("build", Exec) {
+  environment.remove("LUA_PATH")
+  environment.remove("LUA_CPATH")
+  environment.remove("VIMRUNTIME")
+  environment.remove("NVIM_LISTEN_ADDRESS")
+  environment["PATH"] = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
   workingDir project.projectDir
   commandLine 'make'
 }
 
+def preparePackageContentsTask = tasks.register("preparePackageContents") {
+  def runtimeDir = file("${projectDir}/runtime")
+  def nvimExe = "${binDir}/nvim"
+
+  inputs.file(nvimExe)
+  inputs.dir(runtimeDir)
+  outputs.dir(neovimZipContentsDir)
+
+  dependsOn buildTask
+
+  doLast {
+    project.delete neovimZipContentsDir
+    project.copy {
+      from nvimExe
+      into neovimZipContentsDir
+    }
+
+    project.copy {
+      from runtimeDir
+      into "${neovimZipContentsDir}/runtime"
+    }
+  }
+}
+
+def packageTask = tasks.register("package", Zip) {
+  dependsOn preparePackageContentsTask
+  from neovimZipContentsDir
+  destinationDir neovimZip.parentFile
+  archiveName neovimZip.name
+}
+
+publishing {
+  publications {
+    neovim(MavenPublication) {
+      artifact(neovimZip) {
+        builtBy packageTask
+      }
+    }
+  }
+  repositories {
+    mavenLocal()
+    maven {
+      url aveMavenUrl
+      credentials {
+        username aveMavenUser
+        password aveMavenPassword
+      }
+    }
+  }
+}
