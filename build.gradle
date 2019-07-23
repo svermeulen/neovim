@@ -4,6 +4,8 @@ plugins {
   id "com.ave.versioning" version '1.4.0'
 }
 
+group = "com.ave"
+
 ext {
   neovimZip = file("${buildDir}/dist.zip")
   binDir = file("${buildDir}/bin")
